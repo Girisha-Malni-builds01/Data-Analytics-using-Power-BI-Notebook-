@@ -1,22 +1,22 @@
-# 📊 Power BI Data Analytics Workshop
+# Power BI Data Analytics Workshop
 
 Documentation curated by Girisha Malni N, Vishalini S, Syed Ameen G, Osho V - dated 15/9/2026 
 
-## 🆚 Why Power BI over Excel?
+##  Why Power BI over Excel?
 
 | Feature | Excel | Power BI |
 |---|---|---|
 | Data handling | Cell-based | Data-model based |
-| Query performance | Limited at scale | ⚡ VertiPaq + In-memory |
+| Query performance | Limited at scale |  VertiPaq + In-memory |
 | Data preparation | Formulas / Power Query | Power Query / ETL |
 | Calculations | Excel Functions | DAX + Measures |
-| Real-time analytics | Limited | 🔴 Streaming / Fabric |
+| Real-time analytics | Limited | Streaming / Fabric |
 | Python | Possible | Integrated workflow |
 | Large datasets | Worksheet limitations | Scalable Semantic Models |
 
 ---
 
-# 1. ⚡ Fast Queries — VertiPaq
+# 1.  Fast Queries — VertiPaq
 
 Power BI Import mode uses **VertiPaq**, an in-memory, columnar storage engine.
 
@@ -41,7 +41,7 @@ Column C → Compressed → RAM
 
 ---
 
-# 2. 🔴 Dynamic & Real-Time Analytics
+# 2. Dynamic & Real-Time Analytics
 
 Modern analytics is not just:
 
@@ -75,7 +75,7 @@ Dashboard / Alerts
 
 ---
 
-# 3. 🧹 Power Query + Python
+# 3. Power Query + Python
 
 ## Power Query = ETL
 
@@ -107,7 +107,7 @@ Forecast
 Power BI Dashboard
 ```
 
-## 📈 Time-Series Forecasting
+## Time-Series Forecasting
 
 | Model | Concept |
 |---|---|
@@ -131,7 +131,7 @@ Power BI Dashboard
 
 ---
 
-# 4. 🧠 DAX vs Excel Functions
+# 4. DAX vs Excel Functions
 
 ## Excel
 
@@ -180,7 +180,7 @@ This is one of the biggest conceptual differences between **Excel formulas and D
 
 ---
 
-# 5. 📦 Big Data & Capacity
+# 5. Big Data & Capacity
 
 ## Excel
 
@@ -189,7 +189,6 @@ This is one of the biggest conceptual differences between **Excel formulas and D
 - **1,048,576 rows**
 - **16,384 columns**
 
-> ⚠️ This is the worksheet limit. Excel's Data Model can handle much more than a worksheet.
 
 ## Power BI
 
@@ -202,7 +201,7 @@ This is one of the biggest conceptual differences between **Excel formulas and D
 
 ---
 
-# 🎯 Workshop Mental Model
+# Workshop Mental Model
 
 ```text
         RAW DATA

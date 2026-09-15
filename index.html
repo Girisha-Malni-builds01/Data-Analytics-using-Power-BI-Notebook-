@@ -253,6 +253,23 @@ main{
     font-weight:700;
 }
 
+.documented{
+    margin-top:8px;
+    font-size:12px;
+    color:var(--text);
+}
+
+.organized{
+    margin-top:3px;
+    font-size:12px;
+    color:var(--muted);
+}
+
+.documented strong,
+.organized strong{
+    font-weight:750;
+}
+
 /* =========================================================
    INFOGRAPHICS
 ========================================================= */
@@ -774,11 +791,25 @@ HEADER
 <div class="brand">
 
 <div>
-<div class="title">Power BI & Data Analytics Workshop</div>
+
+<div class="title">
+Power BI & Data Analytics Workshop
+</div>
 
 <div class="subtitle">
 Technical reference notes · Power BI · DAX · Power Query · Data Architecture · Forecasting
 </div>
+
+<div class="documented">
+Documented by
+<strong>Girisha Malni N, Vishalini S, Syed Ameen G, Osho V</strong>
+</div>
+
+<div class="organized">
+Content of Workshop Organized by
+<strong>Mrs. Sahebzathi, AP-III, CSE, VCET, Madurai</strong>
+</div>
+
 </div>
 
 <div class="version">
@@ -812,6 +843,11 @@ onclick="showTab('forecast',this)">
 Time-Series Forecasting
 </button>
 
+<button class="tab"
+onclick="showTab('medallion',this)">
+Medallion Architecture
+</button>
+   
 </nav>
 
 </header>
@@ -2545,6 +2581,986 @@ Power BI
 
 </section>
 
+<!-- =========================================================
+TAB 4 — MEDALLION ARCHITECTURE
+========================================================= -->
+
+<section id="medallion" class="page">
+
+
+<div class="hero">
+
+<h1>Medallion Architecture</h1>
+
+<p>
+A layered data architecture that progressively transforms raw source
+data into clean, validated and business-ready information through
+Bronze, Silver and Gold layers.
+</p>
+
+</div>
+
+
+<h2 class="section-title">
+01 · What is Medallion Architecture?
+</h2>
+
+<div class="callout blue">
+
+<strong>Core idea</strong>
+
+Do not treat raw data and business-ready data as the same thing.
+
+Medallion Architecture separates data according to its level of
+refinement: <strong>Bronze → Silver → Gold</strong>.
+
+</div>
+
+
+<div class="infographic">
+
+<div class="layers">
+
+<div class="layer bronze">
+
+<h3>BRONZE — RAW</h3>
+
+<p>
+SOURCE DATA · INGESTION · MINIMAL TRANSFORMATION
+</p>
+
+</div>
+
+<div class="layer-arrow">↓</div>
+
+<div class="layer silver">
+
+<h3>SILVER — CLEANED</h3>
+
+<p>
+VALIDATED · STANDARDIZED · DEDUPLICATED · INTEGRATED
+</p>
+
+</div>
+
+<div class="layer-arrow">↓</div>
+
+<div class="layer gold">
+
+<h3>GOLD — BUSINESS READY</h3>
+
+<p>
+BUSINESS LOGIC · KPIs · AGGREGATIONS · ANALYTICS
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+02 · The Three Layers
+</h2>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="label">Layer 1</div>
+
+<h3>Bronze — Raw Data</h3>
+
+<p>
+The Bronze layer stores data close to its original source form.
+</p>
+
+<p>
+Typical sources include ERP systems, CRM systems, APIs, IoT streams,
+CSV files, Excel files and operational databases.
+</p>
+
+<p class="small">
+<strong>Primary objective:</strong> preserve source information and
+maintain traceability.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">Layer 2</div>
+
+<h3>Silver — Trusted Data</h3>
+
+<p>
+The Silver layer contains cleaned, standardized and validated data.
+</p>
+
+<p>
+Typical operations include type correction, deduplication,
+standardization, validation and integration.
+</p>
+
+<p class="small">
+<strong>Primary objective:</strong> create reliable reusable data.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="label">Layer 3</div>
+
+<h3>Gold — Business Data</h3>
+
+<p>
+The Gold layer represents information in a form optimized for business
+consumption and analytical workloads.
+</p>
+
+<p>
+Business rules, KPIs, aggregations and analytical structures are
+typically introduced here.
+</p>
+
+<p class="small">
+<strong>Primary objective:</strong> deliver business-ready information.
+</p>
+
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+03 · Technical Data Flow
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow flow-wrap">
+
+<div class="flow-box">
+ERP
+<br>
+CRM
+<br>
+Files
+<br>
+APIs
+<br>
+IoT
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+INGESTION
+<br><br>
+Capture
+<br>
+Preserve
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">
+BRONZE
+<br><br>
+Raw
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+TRANSFORMATION
+<br><br>
+Clean
+<br>
+Validate
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">
+SILVER
+<br><br>
+Trusted
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box purple">
+BUSINESS LOGIC
+<br><br>
+KPI
+<br>
+Aggregation
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box gold">
+GOLD
+<br><br>
+Business Ready
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Power BI
+<br><br>
+Analytics
+</div>
+
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+04 · Bronze Layer — Technical Details
+</h2>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Source Preservation</h3>
+
+<p>
+Bronze data should generally retain the structure and values received
+from the source rather than immediately applying extensive business
+logic.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Ingestion Metadata</h3>
+
+<p>
+Useful metadata can include ingestion timestamp, source system,
+batch identifier, file name, ingestion status and processing date.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Traceability</h3>
+
+<p>
+Keeping source-faithful data makes it easier to investigate where a
+Silver or Gold value originated.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Historical Preservation</h3>
+
+<p>
+Bronze can provide a historical record of what arrived from upstream
+systems, depending on the retention strategy.
+</p>
+
+</div>
+
+</div>
+
+
+<h3>Example Bronze Record</h3>
+
+<pre><code>{
+    "customer_id": "C001",
+    "customer_name": "ABC Ltd",
+    "region": "south ",
+    "sales_amount": "125000",
+    "transaction_date": "15/08/2026",
+    "source": "ERP",
+    "ingestion_timestamp": "2026-08-16 02:15:10"
+}</code></pre>
+
+
+<div class="callout orange">
+
+<strong>Bronze principle</strong>
+
+Avoid destroying useful source information too early. Transformation
+should not make the original data impossible to audit or reproduce.
+</div>
+
+
+<h2 class="section-title">
+05 · Silver Layer — Technical Details
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow flow-wrap">
+
+<div class="flow-box">
+Raw Data
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Data Types
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Null Handling
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Deduplication
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Standardization
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Validation
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Trusted Data
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Data Type Standardization</h3>
+
+<p>
+Convert dates, numbers, currencies and categorical fields into consistent
+representations.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Data Quality Rules</h3>
+
+<p>
+Check mandatory fields, valid ranges, duplicate keys and invalid
+relationships.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Deduplication</h3>
+
+<p>
+Identify records that represent the same business event and apply an
+explicit deduplication strategy.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Integration</h3>
+
+<p>
+Combine data from multiple sources while resolving naming, key and
+format inconsistencies.
+</p>
+
+</div>
+
+</div>
+
+
+<h3>Example Transformation</h3>
+
+<pre><code>Raw:
+
+Region = "south "
+Sales   = "125000"
+Date    = "15/08/2026"
+
+        ↓
+
+Silver:
+
+Region = "South"
+Sales  = 125000
+Date   = 2026-08-15</code></pre>
+
+
+<h2 class="section-title">
+06 · Gold Layer — Technical Details
+</h2>
+
+
+<p>
+The Gold layer is where the cleaned data becomes meaningful for a
+specific business domain or analytical workload.
+</p>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Business Rules</h3>
+
+<p>
+Apply approved business definitions such as revenue, profit, margin,
+customer status or service-level measures.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Aggregations</h3>
+
+<p>
+Prepare summaries such as daily, monthly, regional or product-level
+metrics where appropriate.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Dimensional Structures</h3>
+
+<p>
+Gold data can be organized into analytical fact and dimension structures
+for BI consumption.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>KPI Layer</h3>
+
+<p>
+Expose consistent definitions for business metrics so different reports
+do not independently calculate conflicting versions of the same KPI.
+</p>
+
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+07 · Example: Sales Analytics
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow">
+
+<div class="flow-box">
+ERP Sales
+<br><br>
+Raw Transactions
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+BRONZE
+<br><br>
+Source-faithful
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">
+SILVER
+<br><br>
+Clean + Validated
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box gold">
+GOLD
+<br><br>
+Revenue
+<br>
+Profit
+<br>
+Margin
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Power BI
+<br><br>
+Dashboard
+</div>
+
+</div>
+
+</div>
+
+
+<h3>Transformation Example</h3>
+
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Example Data</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>Bronze</td>
+<td>"south "</td>
+<td>Preserve source value.</td>
+</tr>
+
+<tr>
+<td>Silver</td>
+<td>"South"</td>
+<td>Standardize category.</td>
+</tr>
+
+<tr>
+<td>Silver</td>
+<td>Sales = "125000"</td>
+<td>Convert text to numeric.</td>
+</tr>
+
+<tr>
+<td>Silver</td>
+<td>Duplicate transaction</td>
+<td>Apply deduplication rule.</td>
+</tr>
+
+<tr>
+<td>Gold</td>
+<td>Monthly Revenue</td>
+<td>Apply business aggregation.</td>
+</tr>
+
+<tr>
+<td>Gold</td>
+<td>Profit Margin</td>
+<td>Apply approved KPI definition.</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<h2 class="section-title">
+08 · Data Quality Across the Layers
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow flow-wrap">
+
+<div class="flow-box">
+BRONZE
+<br><br>
+"What arrived?"
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+SILVER
+<br><br>
+"Is it valid?"
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box gold">
+GOLD
+<br><br>
+"Is it meaningful?"
+</div>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+<h3>Completeness</h3>
+<p>Required information exists.</p>
+</div>
+
+<div class="card">
+<h3>Validity</h3>
+<p>Values satisfy defined rules.</p>
+</div>
+
+<div class="card">
+<h3>Consistency</h3>
+<p>Definitions and formats agree across sources.</p>
+</div>
+
+<div class="card">
+<h3>Uniqueness</h3>
+<p>Duplicate business records are controlled.</p>
+</div>
+
+<div class="card">
+<h3>Accuracy</h3>
+<p>Values correctly represent the intended business event.</p>
+</div>
+
+<div class="card">
+<h3>Timeliness</h3>
+<p>Data arrives within the required business window.</p>
+</div>
+
+</div>
+
+
+<h2 class="section-title">
+09 · Incremental Processing
+</h2>
+
+
+<p>
+For large datasets, processing the entire history every time may be
+inefficient. Incremental processing focuses on newly arrived or changed
+data according to an appropriate partitioning or change-detection
+strategy.
+</p>
+
+
+<div class="infographic">
+
+<div class="flow">
+
+<div class="flow-box">
+Historical Data
+<br><br>
+Already Processed
+</div>
+
+<div class="arrow">+</div>
+
+<div class="flow-box orange">
+New / Changed Data
+<br><br>
+Current Period
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Updated Dataset
+</div>
+
+</div>
+
+</div>
+
+
+<div class="callout blue">
+
+<strong>Why it matters</strong>
+
+Incremental processing can reduce refresh time and unnecessary
+reprocessing when the dataset is large and only a relatively small
+portion changes between refreshes.
+</div>
+
+
+<h2 class="section-title">
+10 · Data Lineage
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow">
+
+<div class="flow-box">
+Source System
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Bronze
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">
+Silver
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box gold">
+Gold
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box purple">
+Semantic Model
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Report
+</div>
+
+</div>
+
+</div>
+
+
+<p>
+<strong>Data lineage</strong> answers the question:
+<strong>"Where did this number come from?"</strong>
+</p>
+
+<p>
+A well-designed pipeline allows analysts to trace a business metric
+back through transformations toward its source.
+</p>
+
+
+<h2 class="section-title">
+11 · Medallion Architecture vs Traditional ETL
+</h2>
+
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+<th>Concept</th>
+<th>Traditional ETL View</th>
+<th>Medallion View</th>
+</tr>
+
+<tr>
+<td>Raw data</td>
+<td>Often transformed during ETL</td>
+<td>Explicit Bronze layer</td>
+</tr>
+
+<tr>
+<td>Clean data</td>
+<td>Transformation output</td>
+<td>Explicit Silver layer</td>
+</tr>
+
+<tr>
+<td>Business data</td>
+<td>Warehouse / reporting layer</td>
+<td>Explicit Gold layer</td>
+</tr>
+
+<tr>
+<td>Traceability</td>
+<td>Depends on implementation</td>
+<td>Layer separation supports lineage</td>
+</tr>
+
+<tr>
+<td>Reuse</td>
+<td>Can vary by implementation</td>
+<td>Silver data can serve multiple downstream use cases</td>
+</tr>
+
+</table>
+
+</div>
+
+
+<h2 class="section-title">
+12 · Medallion Architecture + Power BI
+</h2>
+
+
+<div class="infographic">
+
+<div class="flow flow-wrap">
+
+<div class="flow-box">
+Operational
+Sources
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box orange">
+Bronze
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box">
+Silver
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box gold">
+Gold
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box purple">
+Power BI
+Semantic Model
+</div>
+
+<div class="arrow">→</div>
+
+<div class="flow-box green">
+Reports
+<br>
+Dashboards
+<br>
+KPIs
+</div>
+
+</div>
+
+</div>
+
+
+<div class="callout green">
+
+<strong>Workshop takeaway</strong>
+
+Power BI is the analytical consumption layer; Medallion Architecture
+describes how data can be progressively refined before it reaches that
+analytical layer. They solve different but complementary problems.
+</div>
+
+
+<h2 class="section-title">
+13 · Technical Checklist
+</h2>
+
+
+<div class="grid">
+
+<div class="card">
+
+<h3>Bronze</h3>
+
+<p>✓ Preserve source data</p>
+<p>✓ Record ingestion metadata</p>
+<p>✓ Maintain traceability</p>
+<p>✓ Define retention strategy</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Silver</h3>
+
+<p>✓ Standardize data types</p>
+<p>✓ Handle nulls</p>
+<p>✓ Remove duplicates</p>
+<p>✓ Validate business rules</p>
+<p>✓ Integrate sources</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>Gold</h3>
+
+<p>✓ Define business logic</p>
+<p>✓ Create reusable KPIs</p>
+<p>✓ Build analytical structures</p>
+<p>✓ Optimize for consumption</p>
+
+</div>
+
+</div>
+
+
+<div class="callout orange">
+
+<strong>Remember the progression</strong>
+
+Raw data is not automatically trusted data, and trusted data is not
+automatically business-ready information.
+
+<br><br>
+
+<strong>
+BRONZE = Preserve → SILVER = Trust → GOLD = Analyze
+</strong>
+
+</div>
+
+
+</section>
 
 <!-- =========================================================
 TAB 4 — FORECASTING

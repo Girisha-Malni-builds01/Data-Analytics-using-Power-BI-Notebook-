@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Power BI Analytics Handbook</title>
+<style>
+:root{
+  --bg:#f6f8fa;--panel:#ffffff;--text:#24292f;--muted:#57606a;--border:#d0d7de;
+  --accent:#0969da;--accent2:#1f6feb;--soft:#ddf4ff;--code:#f6f8fa;--good:#1a7f37;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.62}
+header{background:#24292f;color:white;border-bottom:1px solid #444c56;position:sticky;top:0;z-index:20}
+.top{max-width:1280px;margin:auto;padding:18px 24px 14px}
+.brand{font-size:22px;font-weight:700;letter-spacing:.2px}
+.subtitle{color:#c8d1da;font-size:13px;margin-top:2px}
+nav{max-width:1280px;margin:auto;display:flex;overflow-x:auto;border-top:1px solid #444c56}
+nav button{background:none;border:0;color:#d0d7de;padding:13px 17px;cursor:pointer;font-size:14px;white-space:nowrap;border-bottom:2px solid transparent}
+nav button:hover,nav button.active{color:#fff;border-bottom-color:#58a6ff;background:#2d333b}
+main{max-width:1280px;margin:30px auto;padding:0 24px}
+.tab{display:none}.tab.active{display:block}
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:34px;margin-bottom:22px}
+.hero h1{font-size:38px;line-height:1.15;margin:0 0 10px}
+.hero p{font-size:17px;color:var(--muted);max-width:850px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:20px}
+.card h3{margin-top:0}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700}
+h2{font-size:27px;margin-top:36px;border-bottom:1px solid var(--border);padding-bottom:8px}
+h3{font-size:19px;margin-top:24px}
+h4{margin-bottom:5px}
+p{margin-top:8px}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:14px}
+th,td{border:1px solid var(--border);padding:10px 11px;text-align:left;vertical-align:top}
+th{background:#f6f8fa}
+code,pre{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+pre{background:#0d1117;color:#e6edf3;border-radius:8px;padding:16px;overflow:auto;font-size:13px}
+code.inline{background:var(--code);border:1px solid var(--border);padding:2px 5px;border-radius:4px}
+.note{border-left:4px solid var(--accent);background:#ddf4ff;padding:12px 15px;margin:16px 0;border-radius:0 6px 6px 0}
+.warn{border-left-color:#bf8700;background:#fff8c5}
+.success{border-left-color:var(--good);background:#dafbe1}
+.muted{color:var(--muted)}
+.pill{display:inline-block;border:1px solid var(--border);padding:4px 8px;border-radius:999px;font-size:12px;margin:2px 4px 2px 0;background:#fff}
+.diagram{border:1px solid var(--border);background:#fff;border-radius:9px;padding:18px;margin:18px 0;overflow:auto}
+.flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.box{border:1px solid #8c959f;background:#f6f8fa;padding:12px 16px;border-radius:7px;text-align:center;min-width:150px}
+.arrow{font-size:22px;color:#57606a}
+.chartbox{height:190px;border:1px solid var(--border);background:#fff;border-radius:8px;position:relative;padding:18px;margin:10px 0}
+.chartbox:before,.chartbox:after{content:"";position:absolute;left:38px;right:15px;border-top:1px dashed #d8dee4}
+.chartbox:before{top:55px}.chartbox:after{top:105px}
+.barset{height:100%;display:flex;align-items:flex-end;gap:14px;padding:0 35px 20px 45px}
+.bar{width:28px;background:#0969da;border-radius:3px 3px 0 0}
+.linechart{position:relative;height:100%;margin:0 35px 20px 45px}
+svg{max-width:100%;height:auto}
+footer{border-top:1px solid var(--border);margin-top:45px;padding:25px 0;color:var(--muted);font-size:13px}
+.small{font-size:13px}
+.two-col{columns:2;column-gap:35px}
+.two-col>*{break-inside:avoid}
+.callout-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.callout{padding:15px;border:1px solid var(--border);border-radius:8px;background:#fff}
+.callout strong{display:block;font-size:20px}
+.math{background:#f6f8fa;border:1px solid var(--border);padding:14px;border-radius:7px;font-family:Georgia,serif;font-size:16px}
+.tag{font-size:11px;background:#eff3f6;border:1px solid var(--border);padding:2px 6px;border-radius:4px}
+a{color:var(--accent)}
+@media(max-width:850px){.grid,.grid2,.callout-grid{grid-template-columns:1fr}.hero h1{font-size:30px}.two-col{columns:1}}
+
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.medallion{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}.medal{border:1px solid #d9e1ea;border-radius:10px;padding:20px;background:#fff}.medal div{font-size:.75rem;font-weight:800;letter-spacing:.14em;color:#687385}.medal h3{margin:8px 0 12px}.medal li{margin:7px 0}.medal.bronze{border-top:5px solid #a97142}.medal.silver{border-top:5px solid #8d99a6}.medal.gold{border-top:5px solid #c79b2b}.pipeline{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0}.pipeline span{padding:10px 14px;background:#f8fafc;border:1px solid #d9e1ea;border-radius:8px}.source-note{font-size:.82rem;color:#687385;margin:16px 0}.small{margin-top:14px}@media(max-width:900px){.grid.three,.medallion{grid-template-columns:1fr}}
+</style>
+<style>/* Medallion additions */ .medallion{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:18px 0}.medal{border:1px solid #d9e1ea;border-radius:10px;padding:20px;background:#fff}.medal-label{font-size:.75rem;font-weight:800;letter-spacing:.14em;color:#687385}.medal.bronze{border-top:5px solid #a97142}.medal.silver{border-top:5px solid #8d99a6}.medal.gold{border-top:5px solid #c79b2b}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.subhead{margin-top:32px}@media(max-width:900px){.medallion,.grid.three{grid-template-columns:1fr}}</style></head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand">Power BI Analytics Handbook</div>
+    <div class="subtitle">DAX · Visual Analytics · Power Query · Time-Series Forecasting · Modeling · Performance</div>
+  </div>
+  <nav id="nav">
+    <button class="active" data-tab="home">Home</button>
+    <button data-tab="fundamentals">Fundamentals</button>
+    <button data-tab="dax">DAX Notes</button>
+    <button data-tab="charts">Charts & Visual Analytics</button>
+    <button data-tab="pq">Power Query</button>
+    <button data-tab="ts">Time-Series Forecasting</button>
+    <button data-tab="model">Data Model & Performance</button>
+    <button data-tab="refs">References</button>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="tab active">
+  <div class="hero">
+    <div class="kicker">GitLab-style learning site</div>
+    <h1>Power BI Analytics — from raw data to forecast</h1>
+    <p>A practical technical handbook for building Power BI solutions: prepare data with Power Query, model it correctly, calculate business logic with DAX, choose visuals based on analytical intent, and connect BI reporting with statistical time-series forecasting.</p>
+    <div>
+      <span class="pill">Power Query / M</span><span class="pill">DAX</span><span class="pill">Semantic model</span>
+      <span class="pill">Visual analytics</span><span class="pill">ARIMA</span><span class="pill">SARIMA</span><span class="pill">SARIMAX</span>
+    </div>
+  </div>
+
+  <div class="diagram">
+    <h3>End-to-end analytics map</h3>
+    <div class="flow">
+      <div class="box"><b>Sources</b><br><span class="small">SQL · Excel · CSV · APIs</span></div><div class="arrow">→</div>
+      <div class="box"><b>Power Query</b><br><span class="small">Extract · Clean · Transform</span></div><div class="arrow">→</div>
+      <div class="box"><b>Semantic Model</b><br><span class="small">Relationships · Star schema</span></div><div class="arrow">→</div>
+      <div class="box"><b>DAX</b><br><span class="small">Measures · Time intelligence</span></div><div class="arrow">→</div>
+      <div class="box"><b>Visuals</b><br><span class="small">Compare · Trend · Explain</span></div><div class="arrow">→</div>
+      <div class="box"><b>Forecast</b><br><span class="small">Statistical / ML layer</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="kicker">01</div><h3>Prepare</h3><p>Connect to sources, profile columns, fix types, remove errors, merge/append, reshape, parameterize and preserve query folding whenever possible.</p></div>
+    <div class="card"><div class="kicker">02</div><h3>Model</h3><p>Use dimensions and facts, define one-to-many relationships, create a dedicated date table, and keep business calculations primarily in measures.</p></div>
+    <div class="card"><div class="kicker">03</div><h3>Explain</h3><p>Choose a visual according to the question: comparison, trend, composition, distribution, relationship, geography, KPI, or diagnostic analysis.</p></div>
+  </div>
+
+  <div class="note"><b>Documentation note:</b> Microsoft describes Power Query as a data connectivity and preparation technology, while Power BI visuals transform curated model data and DAX calculations into insights. This handbook follows that separation of responsibilities.</div>
+
+  <h2>Fast revision map</h2>
+  <table>
+    <tr><th>Question</th><th>Primary tool</th><th>Typical answer</th></tr>
+    <tr><td>Where does the data come from?</td><td>Power Query</td><td>Connect, extract and profile.</td></tr>
+    <tr><td>How should the data be reshaped?</td><td>Power Query / M</td><td>Filter, split, merge, append, pivot/unpivot, group.</td></tr>
+    <tr><td>How do tables relate?</td><td>Semantic model</td><td>Relationships, cardinality, filter direction, star schema.</td></tr>
+    <tr><td>What is the business metric?</td><td>DAX</td><td>Measure evaluated in filter context.</td></tr>
+    <tr><td>How do I communicate the result?</td><td>Visual analytics</td><td>Choose visual by analytical task.</td></tr>
+    <tr><td>What happens next?</td><td>Forecasting</td><td>Model trend, seasonality and external drivers where appropriate.</td></tr>
+  </table>
+</section>
+
+<section id="medallion" class="section"><div class="section-head"><div><div class="eyebrow">01 — ARCHITECTURE</div><h2>Medallion Architecture &amp; Use Cases</h2><p>Bronze preserves raw data, Silver creates clean and conformed data, and Gold creates curated business-ready data for analytics.</p></div></div><div class="medallion"><div class="medal bronze"><div class="medal-label">BRONZE</div><h3>Raw / Landing</h3><p>Source-faithful ingestion. Preserve history and traceability. Examples: ERP, CRM, API, CSV, logs and IoT data.</p></div><div class="medal silver"><div class="medal-label">SILVER</div><h3>Cleaned / Conformed</h3><p>Standardize types, clean duplicates/nulls, validate quality, join sources and create reusable analytical tables.</p></div><div class="medal gold"><div class="medal-label">GOLD</div><h3>Curated / Business-ready</h3><p>Business rules, facts, dimensions, metrics and marts optimized for Power BI, dashboards, ML and decision-making.</p></div></div><div class="architecture-line"><span>Sources</span><b>→</b><span>Bronze</span><b>→</b><span>Silver</span><b>→</b><span>Gold</span><b>→</b><span>Power BI Semantic Model</span><b>→</b><span>Reports</span></div><h3 class="subhead">Use Cases</h3><div class="grid three"><article class="card"><h4>Bronze</h4><p>Ingestion, auditability, source preservation and replay.</p></article><article class="card"><h4>Silver</h4><p>Data quality, standardization, integration and reusable datasets.</p></article><article class="card"><h4>Gold</h4><p>Sales/finance/customer marts, governed KPIs and Power BI consumption.</p></article></div><h3 class="subhead">Visualization Use Cases</h3><div class="grid two"><article class="card"><h4>Comparison</h4><p>Bar/column — compare products, regions or categories.</p></article><article class="card"><h4>Trend</h4><p>Line/area — show change over time.</p></article><article class="card"><h4>Part-to-whole</h4><p>100% stacked/treemap — show contribution or share.</p></article><article class="card"><h4>Relationship</h4><p>Scatter — explore association between numeric variables.</p></article><article class="card"><h4>Geography</h4><p>Maps — analyze location-based concentration.</p></article><article class="card"><h4>KPI</h4><p>Cards/KPI — communicate headline performance against a target.</p></article></div><div class="callout small"><b>Interview answer:</b> “Bronze is raw, Silver is cleaned and conformed, Gold is curated for business consumption. Power BI commonly consumes the Gold layer through a semantic model.”</div></section>
+<section id="dax" class="tab">
+  <div class="hero"><div class="kicker">Data Analysis Expressions</div><h1>DAX Notes</h1><p>DAX is the calculation language used in Power BI semantic models. The core mental model is not “write Excel formulas”; it is “evaluate an expression under a context.”</p></div>
+
+  <h2>1. Measures vs calculated columns vs calculated tables</h2>
+  <table>
+    <tr><th>Object</th><th>When calculated</th><th>Responds to slicers?</th><th>Best use</th></tr>
+    <tr><td>Measure</td><td>At query/evaluation time</td><td>Yes</td><td>KPIs, ratios, dynamic aggregations.</td></tr>
+    <tr><td>Calculated column</td><td>During model processing</td><td>No, value itself is stored</td><td>Row-level attributes needed by the model.</td></tr>
+    <tr><td>Calculated table</td><td>During model processing</td><td>No</td><td>Derived model tables, helper tables, scenarios.</td></tr>
+    <tr><td>Power Query custom column</td><td>During refresh</td><td>No</td><td>Data preparation before the model.</td></tr>
+  </table>
+
+  <h2>2. The two contexts you must understand</h2>
+  <div class="grid2">
+    <div class="card"><h3>Row context</h3><p>Think: <b>current row</b>. It is central to calculated columns and iterator functions such as <code class="inline">SUMX</code>.</p><pre>Line Amount =
+Sales[Quantity] * Sales[Unit Price]</pre></div>
+    <div class="card"><h3>Filter context</h3><p>Think: <b>which rows are currently visible to the calculation</b>. Filters can come from slicers, visual axes, relationships, or DAX.</p><pre>Total Sales =
+SUM(Sales[SalesAmount])</pre></div>
+  </div>
+
+  <div class="note"><b>CALCULATE is the context modifier.</b> It evaluates an expression after modifying filter context. This is one of the most important DAX concepts for interview questions and real-world measures.</div>
+  <pre>Store Sales =
+CALCULATE(
+    [Total Sales],
+    Channel[ChannelName] = "Store"
+)</pre>
+
+  <h2>3. Essential DAX function families</h2>
+  <div class="grid">
+    <div class="card"><h3>Aggregation</h3><p><code class="inline">SUM</code>, <code class="inline">AVERAGE</code>, <code class="inline">MIN</code>, <code class="inline">MAX</code>, <code class="inline">COUNT</code>, <code class="inline">DISTINCTCOUNT</code></p></div>
+    <div class="card"><h3>Context</h3><p><code class="inline">CALCULATE</code>, <code class="inline">CALCULATETABLE</code>, <code class="inline">FILTER</code>, <code class="inline">ALL</code>, <code class="inline">REMOVEFILTERS</code>, <code class="inline">KEEPFILTERS</code></p></div>
+    <div class="card"><h3>Iterators</h3><p><code class="inline">SUMX</code>, <code class="inline">AVERAGEX</code>, <code class="inline">MINX</code>, <code class="inline">MAXX</code>, <code class="inline">RANKX</code></p></div>
+    <div class="card"><h3>Relationship</h3><p><code class="inline">RELATED</code>, <code class="inline">RELATEDTABLE</code>, <code class="inline">USERELATIONSHIP</code>, <code class="inline">TREATAS</code></p></div>
+    <div class="card"><h3>Date / time</h3><p><code class="inline">DATE</code>, <code class="inline">YEAR</code>, <code class="inline">MONTH</code>, <code class="inline">DATESYTD</code>, <code class="inline">DATEADD</code>, <code class="inline">SAMEPERIODLASTYEAR</code></p></div>
+    <div class="card"><h3>Logic / text</h3><p><code class="inline">IF</code>, <code class="inline">SWITCH</code>, <code class="inline">COALESCE</code>, <code class="inline">CONCATENATE</code>, <code class="inline">FORMAT</code></p></div>
+  </div>
+
+  <h2>4. Interview-grade patterns</h2>
+  <pre>Total Sales = SUM(Sales[SalesAmount])
+
+Profit = [Total Sales] - [Total Cost]
+
+Profit Margin = DIVIDE([Profit], [Total Sales])
+
+Sales LY =
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR('Date'[Date])
+)
+
+YoY Growth % =
+DIVIDE(
+    [Total Sales] - [Sales LY],
+    [Sales LY]
+)
+
+% of Total =
+DIVIDE(
+    [Total Sales],
+    CALCULATE([Total Sales], REMOVEFILTERS(Product))
+)</pre>
+
+  <h2>5. Context transition</h2>
+  <p>When <code class="inline">CALCULATE()</code> is used without explicit filters inside a row context, it can convert the current row context into filter context. This is called <b>context transition</b>. It becomes especially important when iterators evaluate measures.</p>
+
+  <h2>6. DAX debugging checklist</h2>
+  <ol>
+    <li>Confirm the intended grain of the visual.</li>
+    <li>Check whether the expression is a measure or calculated column.</li>
+    <li>Inspect relationships and filter direction.</li>
+    <li>Ask: “What is the current filter context?”</li>
+    <li>Test the base measure before nesting it.</li>
+    <li>Use DAX Query View and Performance Analyzer for deeper debugging.</li>
+  </ol>
+</section>
+
+<section id="charts" class="tab">
+  <div class="hero"><div class="kicker">Visual Analytics</div><h1>Charts & Visual Analytics</h1><p>Do not choose a chart because it looks attractive. Start with the analytical question, the data type, and the comparison you want the viewer to make.</p></div>
+
+  <h2>1. Chart selection decision map</h2>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box"><b>What is the question?</b><br>Compare · Trend · Composition · Relationship · Distribution · Geography · KPI</div>
+      <div class="arrow">→</div>
+      <div class="box"><b>What is the data?</b><br>Categorical · Numerical · Time · Hierarchical · Geographic</div>
+      <div class="arrow">→</div>
+      <div class="box"><b>What should the eye compare?</b><br>Length · Position · Slope · Area · Rank · Location</div>
+    </div>
+  </div>
+
+  <h2>2. Comparison charts</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Bar / Column</h3>
+      <p><b>Best for:</b> comparing categories. Bar charts are useful when category names are long; column charts work well for time-based or compact categorical comparisons.</p>
+      <div class="chartbox"><div class="barset"><div class="bar" style="height:55%"></div><div class="bar" style="height:82%"></div><div class="bar" style="height:42%"></div><div class="bar" style="height:96%"></div><div class="bar" style="height:68%"></div></div></div>
+      <p class="small"><b>Variants:</b> clustered, stacked, 100% stacked. Use stacked bars when the part-to-whole composition across categories matters.</p>
+    </div>
+    <div class="card">
+      <h3>Ribbon</h3>
+      <p><b>Best for:</b> rank movement across periods. Useful when the story is “which category moved from rank 5 to rank 2?” rather than only the absolute values.</p>
+      <svg viewBox="0 0 500 160">
+        <polyline points="30,125 150,90 270,110 390,45 470,65" fill="none" stroke="#0969da" stroke-width="8"/>
+        <polyline points="30,60 150,105 270,65 390,95 470,40" fill="none" stroke="#8250df" stroke-width="8"/>
+        <polyline points="30,100 150,55 270,90 390,120 470,105" fill="none" stroke="#1a7f37" stroke-width="8"/>
+      </svg>
+    </div>
+  </div>
+
+  <h2>3. Trend charts</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Line chart</h3>
+      <p><b>Best for:</b> time trends, continuous progression, seasonality and forecasting. Use a meaningful time axis and avoid excessive series.</p>
+      <svg viewBox="0 0 500 190">
+        <line x1="40" y1="155" x2="480" y2="155" stroke="#8c959f"/>
+        <line x1="40" y1="25" x2="40" y2="155" stroke="#8c959f"/>
+        <polyline points="50,130 110,118 170,125 230,90 290,96 350,65 410,74 470,40" fill="none" stroke="#0969da" stroke-width="4"/>
+        <circle cx="50" cy="130" r="4"/><circle cx="110" cy="118" r="4"/><circle cx="170" cy="125" r="4"/><circle cx="230" cy="90" r="4"/><circle cx="290" cy="96" r="4"/><circle cx="350" cy="65" r="4"/><circle cx="410" cy="74" r="4"/><circle cx="470" cy="40" r="4"/>
+      </svg>
+    </div>
+    <div class="card">
+      <h3>Area chart</h3>
+      <p><b>Best for:</b> emphasizing magnitude/volume over time. Stacked area can show cumulative composition, but overlapping series can become difficult to compare precisely.</p>
+      <svg viewBox="0 0 500 190">
+        <polygon points="40,155 40,130 110,115 170,125 230,85 290,95 350,65 410,75 470,42 470,155" fill="#ddf4ff"/>
+        <polyline points="40,130 110,115 170,125 230,85 290,95 350,65 410,75 470,42" fill="none" stroke="#0969da" stroke-width="4"/>
+        <line x1="40" y1="155" x2="480" y2="155" stroke="#8c959f"/>
+      </svg>
+    </div>
+  </div>
+
+  <h2>4. Part-to-whole charts</h2>
+  <table>
+    <tr><th>Visual</th><th>Use when</th><th>Avoid when</th></tr>
+    <tr><td>Pie / Donut</td><td>Few categories, one meaningful total.</td><td>Many categories or precise ranking is important.</td></tr>
+    <tr><td>Treemap</td><td>Many hierarchical categories; size represents contribution.</td><td>Exact values need to be compared closely.</td></tr>
+    <tr><td>100% stacked bar</td><td>Compare composition percentages across groups.</td><td>Absolute totals are the main story.</td></tr>
+    <tr><td>Funnel</td><td>Sequential stages such as leads → opportunities → wins.</td><td>Unordered categories.</td></tr>
+  </table>
+
+  <h2>5. Relationship & distribution</h2>
+  <div class="grid2">
+    <div class="card"><h3>Scatter</h3><p>Use two numeric variables to examine correlation, clusters, outliers and non-linear patterns. Add bubble size for a third quantitative dimension.</p>
+      <svg viewBox="0 0 500 200"><line x1="45" y1="170" x2="475" y2="170" stroke="#8c959f"/><line x1="45" y1="25" x2="45" y2="170" stroke="#8c959f"/>
+      <g fill="#0969da"><circle cx="90" cy="150" r="5"/><circle cx="130" cy="145" r="5"/><circle cx="160" cy="125" r="5"/><circle cx="210" cy="120" r="5"/><circle cx="240" cy="105" r="5"/><circle cx="285" cy="92" r="5"/><circle cx="330" cy="75" r="5"/><circle cx="390" cy="58" r="5"/><circle cx="435" cy="45" r="5"/></g></svg>
+    </div>
+    <div class="card"><h3>Distribution thinking</h3><p>For distribution analysis, ask about center, spread, skewness, multimodality and outliers. Power BI's native visual set is strongest when paired with tables, scatter plots, small multiples and appropriate aggregations; use custom visuals when a specialized distribution visual is necessary.</p></div>
+  </div>
+
+  <h2>6. KPI, diagnostic and analytical visuals</h2>
+  <div class="grid">
+    <div class="card"><h3>Card</h3><p>Single important value: revenue, profit, customers, margin.</p></div>
+    <div class="card"><h3>KPI</h3><p>Current value compared with a target and direction/status.</p></div>
+    <div class="card"><h3>Gauge</h3><p>Progress toward a single goal; use sparingly because a scale can consume space.</p></div>
+    <div class="card"><h3>Waterfall</h3><p>Bridge from starting value to ending value through positive and negative contributors.</p></div>
+    <div class="card"><h3>Decomposition tree</h3><p>Explore a metric through dimensions and drill into drivers.</p></div>
+    <div class="card"><h3>Key influencers</h3><p>Explore factors associated with a selected outcome.</p></div>
+    <div class="card"><h3>Small multiples</h3><p>Repeat a visual by category to compare patterns side-by-side.</p></div>
+    <div class="card"><h3>Table / Matrix</h3><p>Exact values, hierarchies, drill-down and detailed inspection.</p></div>
+  </div>
+
+  <h2>7. Maps and geographic analysis</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 900 260">
+      <path d="M90 165 L160 105 L230 125 L285 75 L360 110 L430 65 L510 100 L565 72 L640 115 L710 90 L800 150 L735 190 L650 170 L580 210 L490 180 L410 215 L320 180 L245 205 L170 180 Z" fill="#ddf4ff" stroke="#0969da" stroke-width="3"/>
+      <circle cx="235" cy="135" r="10" fill="#0969da"/><circle cx="430" cy="120" r="14" fill="#8250df"/><circle cx="620" cy="150" r="9" fill="#1a7f37"/><circle cx="720" cy="135" r="12" fill="#cf222e"/>
+      <text x="95" y="240" font-size="15">Use maps when location is analytically meaningful: sales by region, service coverage, branch density, logistics.</text>
+    </svg>
+  </div>
+  <p><b>Map rule:</b> geography should answer a spatial question. Do not use a map merely because a location field exists.</p>
+
+  <h2>8. Power BI visual interaction concepts</h2>
+  <div class="flow">
+    <div class="box">Slicer / Filter</div><div class="arrow">→</div><div class="box">Cross-filter</div><div class="arrow">→</div><div class="box">Cross-highlight</div><div class="arrow">→</div><div class="box">Drill / Drillthrough</div><div class="arrow">→</div><div class="box">Tooltip</div>
+  </div>
+  <div class="note"><b>Analytics pane:</b> Power BI supports trend lines, median/percentile lines, error bars, forecasts and anomaly detection depending on visual type. Forecasting is available for line charts.</div>
+
+  <h2>9. Chart anti-patterns</h2>
+  <table>
+    <tr><th>Problem</th><th>Better approach</th></tr>
+    <tr><td>Too many colors</td><td>Use color to encode meaning, not decoration.</td></tr>
+    <tr><td>3D effects</td><td>Prefer accurate 2D position/length comparisons.</td></tr>
+    <tr><td>Pie with 15 categories</td><td>Use sorted bars or treemap.</td></tr>
+    <tr><td>Line chart with unordered categories</td><td>Use bar/column.</td></tr>
+    <tr><td>Dual axis hiding scale differences</td><td>Use carefully; consider normalized/indexed views or separate visuals.</td></tr>
+    <tr><td>Dashboard packed with visuals</td><td>Establish a hierarchy: KPI → trend → drivers → details.</td></tr>
+  </table>
+</section>
+
+<section id="pq" class="tab">
+  <div class="hero"><div class="kicker">Data preparation</div><h1>Power Query</h1><p>Power Query is the ETL/data-preparation layer. It connects to sources, applies repeatable transformations and loads the resulting data into the host product.</p></div>
+
+  <h2>1. Power Query architecture</h2>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box"><b>Source</b><br>SQL / Excel / CSV / API</div><div class="arrow">→</div>
+      <div class="box"><b>M script</b><br>let → steps → in</div><div class="arrow">→</div>
+      <div class="box"><b>Query engine</b><br>fold / transform</div><div class="arrow">→</div>
+      <div class="box"><b>Output</b><br>Model / dataflow / destination</div>
+    </div>
+  </div>
+
+  <h2>2. Core transformations</h2>
+  <div class="grid">
+    <div class="card"><h3>Column operations</h3><p>Choose/remove, rename, reorder, split, merge, replace values, change data type.</p></div>
+    <div class="card"><h3>Row operations</h3><p>Filter, remove duplicates, remove errors, keep top/bottom rows, group by.</p></div>
+    <div class="card"><h3>Combine</h3><p>Merge queries = join horizontally. Append queries = stack rows vertically.</p></div>
+    <div class="card"><h3>Reshape</h3><p>Pivot and unpivot to move between wide and long representations.</p></div>
+    <div class="card"><h3>Advanced</h3><p>Custom columns, conditional columns, custom functions, parameters and M scripts.</p></div>
+    <div class="card"><h3>Quality</h3><p>Column profiling, distribution, validity checks, null/error handling and type validation.</p></div>
+  </div>
+
+  <h2>3. M language</h2>
+  <p>M is a functional, case-sensitive language. The Advanced Editor exposes the query script.</p>
+  <pre>let
+    Source = Excel.Workbook(File.Contents("Sales.xlsx"), null, true),
+    Sales = Source{[Item="Sales",Kind="Table"]}[Data],
+    ChangedType = Table.TransformColumnTypes(
+        Sales,
+        {{"Date", type date}, {"Amount", type number}}
+    ),
+    Filtered = Table.SelectRows(
+        ChangedType,
+        each [Amount] &gt; 0
+    )
+in
+    Filtered</pre>
+
+  <h2>4. Query folding</h2>
+  <p><b>Query folding</b> means Power Query pushes supported transformations back to the source system so the source performs as much work as possible. This can reduce data movement and improve refresh performance.</p>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box">M transformations</div><div class="arrow">→</div>
+      <div class="box">Folding analysis</div><div class="arrow">→</div>
+      <div class="box">Native source query</div><div class="arrow">→</div>
+      <div class="box">Smaller result</div><div class="arrow">→</div>
+      <div class="box">Power Query engine</div>
+    </div>
+  </div>
+  <table>
+    <tr><th>Outcome</th><th>Source</th><th>Power Query engine</th></tr>
+    <tr><td>Full folding</td><td>Processes all possible transformations.</td><td>Minimal remaining work.</td></tr>
+    <tr><td>Partial folding</td><td>Processes supported transformations.</td><td>Processes remaining transformations.</td></tr>
+    <tr><td>No folding</td><td>Returns source data.</td><td>Processes required transformations.</td></tr>
+  </table>
+
+  <div class="note warn"><b>Practical rule:</b> for large relational sources, filter rows and select required columns early when those steps can fold. Be cautious about introducing non-foldable transformations too early.</div>
+
+  <h2>5. Merge vs Append</h2>
+  <div class="grid2">
+    <div class="card"><h3>Merge</h3><p>Combines columns from two tables based on matching keys. Conceptually similar to SQL JOIN.</p><pre>Customers + Orders
+        ↓ customer_id
+Customer attributes + order facts</pre></div>
+    <div class="card"><h3>Append</h3><p>Combines rows from two or more tables with compatible schemas. Conceptually similar to UNION/UNION ALL patterns.</p><pre>Sales_Jan
+Sales_Feb
+Sales_Mar
+   ↓
+Sales_All</pre></div>
+  </div>
+
+  <h2>6. Parameters and reusable functions</h2>
+  <p>Parameters store reusable values and can drive transformation arguments or custom-function inputs. This is useful for folder paths, date cutoffs, environments and reusable ETL logic.</p>
+  <pre>// Parameter example
+StartDate = #date(2026, 1, 1)
+
+// Function-style pattern
+(table as table, threshold as number) as table =>
+    Table.SelectRows(table, each [Amount] &gt; threshold)</pre>
+
+  <h2>7. Power Query vs DAX</h2>
+  <table>
+    <tr><th>Power Query</th><th>DAX</th></tr>
+    <tr><td>Before data enters the model.</td><td>Primarily after data is modeled.</td></tr>
+    <tr><td>ETL / data preparation.</td><td>Analytical calculations.</td></tr>
+    <tr><td>M language.</td><td>DAX language.</td></tr>
+    <tr><td>Refresh-time transformation.</td><td>Measures respond to report context.</td></tr>
+    <tr><td>Good for cleaning and reshaping.</td><td>Good for KPIs, ratios, time intelligence and dynamic analysis.</td></tr>
+  </table>
+</section>
+
+<section id="ts" class="tab">
+  <div class="hero"><div class="kicker">Forecasting</div><h1>Time-Series Forecasting</h1><p>ARIMA, SARIMA and SARIMAX are statistical time-series models. Power BI also provides a built-in Forecast feature in the Analytics pane for line charts. These are related concepts, but they should not be treated as the same implementation.</p></div>
+
+  <div class="note warn"><b>Important Power BI distinction:</b> Microsoft's built-in Power BI Analytics-pane Forecast is a product feature for line charts. ARIMA/SARIMA/SARIMAX are statistical model families that you typically run outside the native Power BI forecasting interface—for example in Python/R or another forecasting service—and then bring predictions back into the BI model.</div>
+
+  <h2>1. Time-series anatomy</h2>
+  <div class="grid">
+    <div class="card"><h3>Level</h3><p>The baseline magnitude around which the series moves.</p></div>
+    <div class="card"><h3>Trend</h3><p>Long-run upward or downward movement.</p></div>
+    <div class="card"><h3>Seasonality</h3><p>Systematic pattern repeating at a fixed frequency: monthly, weekly, quarterly, etc.</p></div>
+    <div class="card"><h3>Noise</h3><p>Random variation not explained by the systematic components.</p></div>
+    <div class="card"><h3>Autocorrelation</h3><p>Dependence between observations and their previous lags.</p></div>
+    <div class="card"><h3>Exogenous drivers</h3><p>External variables that may explain the target, such as price, promotions or weather.</p></div>
+  </div>
+
+  <h2>2. Stationarity</h2>
+  <p>A stationary series has stable statistical properties over time, broadly meaning that its mean, variance and autocovariance structure do not systematically drift with time.</p>
+  <p>ARIMA-family models often use differencing to transform a non-stationary series into a stationary one.</p>
+  <div class="math">First difference: Δyₜ = yₜ − yₜ₋₁</div>
+  <div class="math">Seasonal difference: Δₛyₜ = yₜ − yₜ₋ₛ</div>
+
+  <h2>3. ARIMA</h2>
+  <p><b>ARIMA(p,d,q)</b> combines autoregression, differencing and moving average behavior.</p>
+  <table>
+    <tr><th>Parameter</th><th>Meaning</th><th>Intuition</th></tr>
+    <tr><td>p</td><td>AR order</td><td>How many lagged observations influence the current value.</td></tr>
+    <tr><td>d</td><td>Degree of differencing</td><td>How many times the series is differenced to remove non-stationarity.</td></tr>
+    <tr><td>q</td><td>MA order</td><td>How many lagged forecast errors influence the current value.</td></tr>
+  </table>
+  <div class="math">AR component: yₜ depends on yₜ₋₁, yₜ₋₂, …</div>
+  <div class="math">MA component: yₜ depends on past errors εₜ₋₁, εₜ₋₂, …</div>
+
+  <h2>4. SARIMA</h2>
+  <p><b>SARIMA(p,d,q)(P,D,Q,s)</b> extends ARIMA with a seasonal component.</p>
+  <table>
+    <tr><th>Non-seasonal</th><th>Seasonal</th></tr>
+    <tr><td>p = AR order</td><td>P = seasonal AR order</td></tr>
+    <tr><td>d = differencing</td><td>D = seasonal differencing</td></tr>
+    <tr><td>q = MA order</td><td>Q = seasonal MA order</td></tr>
+    <tr><td></td><td>s = seasonal period</td></tr>
+  </table>
+  <p>Examples of <code class="inline">s</code>: 12 for monthly data with annual seasonality; 7 for daily data with weekly seasonality; 4 for quarterly data with annual seasonality.</p>
+
+  <h2>5. SARIMAX</h2>
+  <p><b>SARIMAX</b> adds exogenous variables (X) to a seasonal ARIMA model.</p>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box">Historical target<br>yₜ</div><div class="arrow">+</div>
+      <div class="box">Lag structure<br>AR / MA</div><div class="arrow">+</div>
+      <div class="box">Seasonality<br>P / D / Q / s</div><div class="arrow">+</div>
+      <div class="box">External drivers<br>Xₜ</div><div class="arrow">→</div>
+      <div class="box"><b>Forecast</b></div>
+    </div>
+  </div>
+  <p>Typical X variables: marketing spend, price, promotions, holidays, weather, macroeconomic indicators or capacity constraints. The external variables must be available for the forecast horizon—or themselves forecast—if they are required as future inputs.</p>
+
+  <h2>6. Model identification: ACF and PACF</h2>
+  <div class="grid2">
+    <div class="card"><h3>ACF</h3><p>Autocorrelation function. Helps inspect correlation between a series and its lagged versions. It is commonly used to reason about MA terms and remaining serial dependence.</p></div>
+    <div class="card"><h3>PACF</h3><p>Partial autocorrelation function. Measures correlation at a lag after controlling for shorter lags. It is commonly used to reason about AR terms.</p></div>
+  </div>
+  <div class="note">ACF/PACF are diagnostic tools, not magic parameter selectors. Candidate orders should be validated using residual diagnostics and out-of-sample performance.</div>
+
+  <h2>7. Practical forecasting workflow</h2>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box">Define target & frequency</div><div class="arrow">→</div>
+      <div class="box">Clean missing dates</div><div class="arrow">→</div>
+      <div class="box">Plot & decompose</div><div class="arrow">→</div>
+      <div class="box">Check stationarity</div><div class="arrow">→</div>
+      <div class="box">ACF / PACF</div><div class="arrow">→</div>
+      <div class="box">Fit candidates</div><div class="arrow">→</div>
+      <div class="box">Backtest</div><div class="arrow">→</div>
+      <div class="box">Forecast + intervals</div>
+    </div>
+  </div>
+
+  <h2>8. Train/test split for time series</h2>
+  <p>Do not randomly shuffle a time series before splitting. The future must not leak into the training set.</p>
+  <div class="chartbox">
+    <div style="position:absolute;left:30px;right:30px;top:80px;height:32px;display:flex">
+      <div style="width:65%;background:#0969da;color:#fff;padding:5px 10px">TRAIN — historical observations</div>
+      <div style="width:35%;background:#8250df;color:#fff;padding:5px 10px">TEST — future holdout</div>
+    </div>
+  </div>
+
+  <h2>9. Forecast evaluation</h2>
+  <table>
+    <tr><th>Metric</th><th>Meaning</th><th>Caution</th></tr>
+    <tr><td>MAE</td><td>Average absolute forecast error.</td><td>Easy to interpret in target units.</td></tr>
+    <tr><td>RMSE</td><td>Square-root mean squared error.</td><td>Penalizes large errors more heavily.</td></tr>
+    <tr><td>MAPE</td><td>Mean absolute percentage error.</td><td>Problematic around zero/very small actuals.</td></tr>
+    <tr><td>sMAPE</td><td>Symmetric percentage-style error.</td><td>Still needs careful interpretation.</td></tr>
+    <tr><td>MASE</td><td>Error scaled relative to a naive benchmark.</td><td>Useful for comparing series with different scales.</td></tr>
+  </table>
+
+  <h2>10. Python example: SARIMAX</h2>
+  <pre>from statsmodels.tsa.statespace.sarimax import SARIMAX
+
+model = SARIMAX(
+    y_train,
+    exog=X_train,
+    order=(1, 1, 1),
+    seasonal_order=(1, 1, 1, 12),
+    enforce_stationarity=False,
+    enforce_invertibility=False
+)
+
+fit = model.fit(disp=False)
+
+forecast = fit.get_forecast(
+    steps=len(y_test),
+    exog=X_test
+)
+
+pred = forecast.predicted_mean
+interval = forecast.conf_int()</pre>
+
+  <h2>11. Connecting forecasts back to Power BI</h2>
+  <div class="diagram">
+    <div class="flow">
+      <div class="box">Power BI source</div><div class="arrow">→</div>
+      <div class="box">Power Query</div><div class="arrow">→</div>
+      <div class="box">Model / export</div><div class="arrow">→</div>
+      <div class="box">Python/R forecast</div><div class="arrow">→</div>
+      <div class="box">Forecast table</div><div class="arrow">→</div>
+      <div class="box">Power BI visual</div>
+    </div>
+  </div>
+  <p>Recommended forecast table fields: <code class="inline">Date</code>, <code class="inline">Entity</code>, <code class="inline">Actual</code>, <code class="inline">Forecast</code>, <code class="inline">LowerBound</code>, <code class="inline">UpperBound</code>, <code class="inline">ModelVersion</code>. Keep model metadata so forecasts remain auditable.</p>
+
+  <h2>12. Built-in Power BI Forecast vs ARIMA-family model</h2>
+  <table>
+    <tr><th>Feature</th><th>Power BI Analytics Forecast</th><th>ARIMA / SARIMA / SARIMAX workflow</th></tr>
+    <tr><td>Native in Power BI visual</td><td>Yes, for supported line-chart forecasting.</td><td>No; usually external statistical code/model layer.</td></tr>
+    <tr><td>Explicit p,d,q control</td><td>No.</td><td>Yes.</td></tr>
+    <tr><td>Seasonal P,D,Q,s control</td><td>No explicit SARIMA parameter interface.</td><td>Yes.</td></tr>
+    <tr><td>Exogenous variables</td><td>Not an explicit SARIMAX-style model interface.</td><td>Yes in SARIMAX.</td></tr>
+    <tr><td>Custom diagnostics</td><td>Limited compared with a statistical modeling environment.</td><td>ACF/PACF, residual diagnostics, backtesting, model selection.</td></tr>
+    <tr><td>Best use</td><td>Fast interactive exploratory forecasting inside reports.</td><td>Controlled statistical forecasting pipeline with explicit assumptions and validation.</td></tr>
+  </table>
+</section>
+
+<section id="model" class="tab">
+  <div class="hero"><div class="kicker">Semantic model</div><h1>Data Model & Performance</h1><p>A good Power BI report is not just a collection of charts. The semantic model controls correctness, reusability, performance and the behavior of DAX.</p></div>
+
+  <h2>1. Star schema</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 900 330">
+      <rect x="345" y="105" width="210" height="100" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="2"/>
+      <text x="450" y="140" text-anchor="middle" font-size="20" font-weight="700">Fact Sales</text>
+      <text x="450" y="168" text-anchor="middle" font-size="14">DateKey · ProductKey</text>
+      <text x="450" y="190" text-anchor="middle" font-size="14">CustomerKey · Amount</text>
+      <rect x="65" y="30" width="190" height="80" rx="8" fill="#f6f8fa" stroke="#8c959f"/><text x="160" y="65" text-anchor="middle" font-size="18" font-weight="700">Dim Date</text><text x="160" y="88" text-anchor="middle" font-size="13">DateKey · Year · Month</text>
+      <rect x="645" y="30" width="190" height="80" rx="8" fill="#f6f8fa" stroke="#8c959f"/><text x="740" y="65" text-anchor="middle" font-size="18" font-weight="700">Dim Product</text><text x="740" y="88" text-anchor="middle" font-size="13">ProductKey · Category</text>
+      <rect x="65" y="220" width="190" height="80" rx="8" fill="#f6f8fa" stroke="#8c959f"/><text x="160" y="255" text-anchor="middle" font-size="18" font-weight="700">Dim Customer</text><text x="160" y="278" text-anchor="middle" font-size="13">CustomerKey · Segment</text>
+      <rect x="645" y="220" width="190" height="80" rx="8" fill="#f6f8fa" stroke="#8c959f"/><text x="740" y="255" text-anchor="middle" font-size="18" font-weight="700">Dim Region</text><text x="740" y="278" text-anchor="middle" font-size="13">RegionKey · Country</text>
+      <line x1="255" y1="90" x2="345" y2="130" stroke="#57606a" stroke-width="2"/><line x1="645" y1="90" x2="555" y2="130" stroke="#57606a" stroke-width="2"/>
+      <line x1="255" y1="255" x2="345" y2="185" stroke="#57606a" stroke-width="2"/><line x1="645" y1="255" x2="555" y2="185" stroke="#57606a" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <h2>2. Relationship checklist</h2>
+  <ul>
+    <li>Prefer clear dimension-to-fact relationships.</li>
+    <li>Validate cardinality: one-to-many is common in star schemas.</li>
+    <li>Avoid unnecessary many-to-many relationships.</li>
+    <li>Use a dedicated date dimension for robust time intelligence.</li>
+    <li>Use inactive relationships deliberately and activate them with <code class="inline">USERELATIONSHIP</code> when needed.</li>
+  </ul>
+
+  <h2>3. Performance mindset</h2>
+  <div class="grid">
+    <div class="card"><h3>Reduce data</h3><p>Remove unused columns and rows before loading where possible.</p></div>
+    <div class="card"><h3>Optimize model</h3><p>Use appropriate data types and a sensible star schema.</p></div>
+    <div class="card"><h3>Optimize DAX</h3><p>Build reusable base measures and avoid unnecessarily expensive iterator/filter patterns.</p></div>
+    <div class="card"><h3>Fold queries</h3><p>Push transformations to capable sources when possible.</p></div>
+    <div class="card"><h3>Analyze visuals</h3><p>Use Performance Analyzer to identify slow visual queries.</p></div>
+    <div class="card"><h3>Control cardinality</h3><p>High-cardinality text columns can increase model size and memory pressure.</p></div>
+  </div>
+
+  <h2>4. Report design hierarchy</h2>
+  <div class="flow">
+    <div class="box"><b>Page title</b><br>What is this report about?</div><div class="arrow">→</div>
+    <div class="box"><b>KPIs</b><br>What happened?</div><div class="arrow">→</div>
+    <div class="box"><b>Trends</b><br>When did it happen?</div><div class="arrow">→</div>
+    <div class="box"><b>Drivers</b><br>Why did it happen?</div><div class="arrow">→</div>
+    <div class="box"><b>Details</b><br>Where / which records?</div>
+  </div>
+</section>
+
+<section id="refs" class="tab">
+  <div class="hero"><div class="kicker">Microsoft Learn + technical references</div><h1>References</h1><p>The notes above are structured from Microsoft Learn documentation for Power BI, DAX, Power Query and Power BI's Analytics pane, with standard statistical time-series concepts added for ARIMA-family modeling.</p></div>
+
+  <h2>Microsoft Learn</h2>
+  <div class="grid2">
+    <div class="card"><h3>Power BI visualizations</h3><p><a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualizations-overview" target="_blank">Visualizations overview</a><br>Comparison, trends, part-to-whole, distribution, relationships, maps, KPIs, AI visuals, filters, small multiples and analytics.</p></div>
+    <div class="card"><h3>DAX</h3><p><a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-quickstart-learn-dax-basics" target="_blank">Learn DAX basics</a><br>Row context, filter context, CALCULATE and DAX fundamentals.</p></div>
+    <div class="card"><h3>Power Query</h3><p><a href="https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query" target="_blank">What is Power Query?</a><br>Data acquisition, transformation, M and ETL concepts.</p></div>
+    <div class="card"><h3>Query folding</h3><p><a href="https://learn.microsoft.com/en-us/power-query/query-folding-basics" target="_blank">Query folding basics</a><br>How Power Query pushes transformations to the source.</p></div>
+    <div class="card"><h3>Analytics pane</h3><p><a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane" target="_blank">Use the Analytics pane</a><br>Forecast, trend lines, anomaly detection, error bars and reference lines.</p></div>
+    <div class="card"><h3>M language</h3><p><a href="https://learn.microsoft.com/en-us/powerquery-m/" target="_blank">Power Query M reference</a><br>Functional, case-sensitive transformation language.</p></div>
+  </div>
+
+  <h2>Suggested deeper study order</h2>
+  <ol>
+    <li>Power Query fundamentals → transformations → M → query folding.</li>
+    <li>Star schema → relationships → date table → storage/model concepts.</li>
+    <li>DAX basics → row/filter context → CALCULATE → iterators → time intelligence.</li>
+    <li>Visual grammar → chart selection → interaction → analytics pane.</li>
+    <li>Time-series fundamentals → stationarity → ACF/PACF → ARIMA → SARIMA → SARIMAX.</li>
+    <li>Backtesting → error metrics → prediction intervals → deployment/monitoring.</li>
+  </ol>
+
+  <div class="note success"><b>Key distinction to remember:</b> Power Query prepares the data. The semantic model organizes it. DAX calculates analytical meaning. Visuals communicate it. Statistical forecasting predicts future values. Keeping these responsibilities separate makes Power BI solutions easier to reason about and maintain.</div>
+</section>
+
+<footer>
+  <b>Power BI Analytics Handbook</b> · Prepared as a clean, static GitLab Pages-ready HTML reference.<br>
+  Documentation links are provided for further reading. Product capabilities can change; consult Microsoft Learn for the current feature behavior.
+</footer>
+</main>
+
+<script>
+const buttons=document.querySelectorAll('nav button');
+const tabs=document.querySelectorAll('.tab');
+function activate(id){
+  tabs.forEach(t=>t.classList.toggle('active',t.id===id));
+  buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+  history.replaceState(null,'','#'+id);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab)));
+const initial=location.hash.replace('#','');
+if(initial && document.getElementById(initial)) activate(initial);
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ Documentating curated by Girisha Malni N, Vishalini S, Syed Ameen G, Osho V - da
 | Feature | Excel | Power BI |
 |---|---|---|
 | Data handling | Cell-based | Data-model based |
-| Query performance | Limited at scale | ⚡ VertiPaq + In-memory |
+| Query performance | Limited at scale | VertiPaq + In-memory |
 | Data preparation | Formulas / Power Query | Power Query / ETL |
 | Calculations | Excel Functions | DAX + Measures |
 | Real-time analytics | Limited | Streaming / Fabric |

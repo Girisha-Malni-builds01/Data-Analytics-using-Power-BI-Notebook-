@@ -2,6 +2,8 @@
 
 Documentation curated by Girisha Malni N, Vishalini S, Syed Ameen G, Osho V - dated 15/9/2026 
 
+CURATED WEBSITE OF WORKSHOP CONTENT : https://data-analytics-using-power-bi-noteb.vercel.app/
+
 ##  Why Power BI over Excel?
 
 | Feature | Excel | Power BI |
